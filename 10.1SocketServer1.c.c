@@ -4,10 +4,11 @@
 
 #include <sys/types.h>
 #include <sys/socket.h>
-#include <stdlib.h>
+//#include <stdlib.h>
 #include <sys/un.h>
 #include <unistd.h>
 #include <stdio.h>
+
 
 int main(void) {
     int strbuflen = 128;
@@ -37,7 +38,7 @@ int main(void) {
         client_len = sizeof(client_address);
         client_socketfd = accept(server_socketfd, (struct sockaddr *) &client_address, &client_len);
         read(client_socketfd, ch, strbuflen);
-        printf("recive %s\n", ch);
+        printf("receive %s\n", ch);
         write(client_socketfd, ch, strbuflen);
         close(client_socketfd);
         if (strncmp(ch, "end", 3) > 0) {
@@ -45,5 +46,6 @@ int main(void) {
         }
     }
 
+    close(server_socketfd);
     return 0;
 }
